@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  data-export-php:
+    environment:
+      XDEBUG_CONFIG: "remote_host=${DEV_HOST_IP} remote_port=${XDEBUG_PORT} remote_enable=1 remote_connect_back=0"
+      PHP_IDE_CONFIG: "serverName=${PHPSTORM_XDEBUG_HOST}"

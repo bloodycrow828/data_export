@@ -1,0 +1,28 @@
+{
+  "description": "briskly-export",
+  "version": "1.0",
+  "type": "project",
+  "authors": [
+    {
+      "name": "oleg_borisov",
+      "role": "developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.4.0",
+    "ext-json": "*",
+    "yiisoft/yii2": "~2.0.38",
+    "vlucas/phpdotenv": "5.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "data_export\\": "/web_root/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}

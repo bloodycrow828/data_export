@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+
+  frontend:
+    build:
+      context: ./docker-compose/data-export-nginx
+    volumes:
+      - ./:/web_root
+      - ./docker-compose/data-export-nginx/conf.d.dev/:/etc/nginx/conf.d
+      - ${DATA_PATH}/logs:/logs
+    depends_on:
+      - data-export-php
+    networks:
+      briskly:
+      web:
+    labels:
+      traefik.enable: "true"
+      traefik.https.routers.frontend.rule: "Host: ${MAIN_DOMAIN}"
+      traefik.https.routers.frontend.entrypoints: "web"
+
+  data-export-php:
+    image: data-export-phpfpm:latest
+    build:
+      context: ./docker-compose/data-export-php
+    volumes:
+      - ./:/web_root
+      - ${DATA_PATH}/opcache:/var/tmp/.opcache
+    networks:
+      briskly:
+        aliases:
+          - 'briskly-fpm'
+
+  data-export-ftp:
+    image: stilliard/pure-ftpd
+    environment:
+      FTP_USER_NAME: ${FTP_USER_NAME}
+      FTP_USER_PASS: ${FTP_USER_PASS}
+      FTP_USER_HOME: /app
+    volumes:
+      - ./storage/public:/app
+    networks:
+      - briskly
+
+  data-export-composer:
+    build:
+      context: ./docker-compose/data-export-composer
+    depends_on:
+      - data-export-php
+    environment:
+      APP_ENV: ${APP_ENV}
+      COMPOSER_AUTH: '{"github-oauth":{"github.com":"${GITHUB_TOKEN}"}}'
+    volumes:
+      - ./:/web_root
+    networks:
+      - briskly
+
+networks:
+  briskly:
+    ipam:
+      config:
+        - subnet: 172.132.0.0/16
+  web:
+    external: true

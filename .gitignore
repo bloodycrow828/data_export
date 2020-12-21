@@ -1,0 +1,13 @@
+assets/*
+apps/runtime
+.htaccess
+.env
+.DS_Store
+.idea
+Thumbs.db
+.buildpath
+.settings
+composer.phar
+composer.lock
+/.idea*
+vendor
