@@ -12,9 +12,10 @@ return [
         'log',
     ],
     'components' => [
-        'errorHandler' => [
-            'class' => 'baibaratsky\yii\rollbar\web\ErrorHandler',
+        'db' => [
+            'class' => 'yii\db\Connection',
         ],
+        'errorAction' => 'site/error',
         'log' => [
             'traceLevel' => 3,
             'targets' => [

@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "data_export\\": "/web_root/"
+      "data_export\\": "/web_root/apps"
     }
   },
   "repositories": [

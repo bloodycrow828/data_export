@@ -1,6 +1,6 @@
 <?php
 
-use converter\bootstrap\SetUp;
+use data_export\common\bootstrap\SetUp;
 
 return [
     'class' => 'yii\web\Application',
@@ -8,18 +8,19 @@ return [
     'name' => 'data_converter',
     'basePath' => CONVERTER_APP_DIR,
     'defaultRoute' => 'site/index',
-    'controllerNamespace' => 'converter\controllers',
+    'controllerNamespace' => 'data_export\converter\controllers',
     'bootstrap' => [
-        'log',
         SetUp::class
     ],
     'components' => [
         'request' => [
-            'enableCookieValidation' => true,
-            'enableCsrfValidation' => true,
-            'cookieValidationKey' => getenv('COOKIE_VALIDATION_KEY'),
+            'enableCookieValidation' => false,
         ],
-        'user' => false,
+        'user' => [
+            'identityClass' => false,
+            'enableAutoLogin' => true,
+            'enableSession' => false,
+        ],
         'urlManager' => require __DIR__ . '/urlManager.php',
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

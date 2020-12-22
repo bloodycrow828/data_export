@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace converter\bootstrap;
+namespace data_export\common\bootstrap;
 
 use yii\base\BootstrapInterface;
 use yii\base\ErrorHandler;
