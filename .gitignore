@@ -1,4 +1,4 @@
-assets/*
+apps/converter/web/assets/*
 apps/converter/runtime
 .htaccess
 .env

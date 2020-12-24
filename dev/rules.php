@@ -4,6 +4,7 @@
 $dirs = [
     '/web_root/apps/common/runtime',
     '/web_root/apps/converter/runtime',
+    '/web_root/apps/converter/web/assets',
     '/web_root/apps/converter/runtime/cache',
     '/web_root/apps/converter/runtime/logs',
 ];

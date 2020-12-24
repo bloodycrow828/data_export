@@ -8,6 +8,9 @@ return [
     'language' => 'ru-RU',
     'sourceLanguage' => 'ru',
     'timeZone' => 'Europe/Moscow',
+    'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+    ],
     'bootstrap' => [
         'log',
     ],

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace data_export\converter\controllers;
 
 
+use data_export\converter\components\exchange\forms\UploadForm;
 use yii\web\Controller;
 
 class SiteController extends Controller
@@ -20,7 +21,11 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return 'ok';
+        $uploadForm = new UploadForm();
+
+        return $this->render('index',[
+            'uploadForm' => $uploadForm,
+        ]);
     }
 
     public function actionImport(): string
