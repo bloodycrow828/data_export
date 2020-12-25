@@ -5,7 +5,6 @@ declare(strict_types=1);
 /* @var $this yii\web\View */
 /* @var $uploadForm UploadForm */
 /* @var $downloadHasTakenPlace boolean */
-
 /* @var $messages array */
 
 use data_export\converter\components\exchange\forms\UploadForm;
@@ -20,7 +19,7 @@ $this->title = 'Загрузка данных из файла json';
         <h1>Конвертер файла json в excel(xlsx)</h1>
         <p class="lead">
             В процессе конвертации происходит проверка на соотвествие штрих-кодов стандарту EAN-13 и корректировки
-            данных, utf-последловательности приводятся в читаемый вид
+            данных, utf-последловательности приводятся в читаемый вид.
         </p>
     </div>
     <div class="row">
@@ -100,7 +99,9 @@ $this->title = 'Загрузка данных из файла json';
             <?= $form->field($uploadForm, 'ftpLogin')->hiddenInput()->label(false) ?>
             <?= $form->field($uploadForm, 'ftpPassword')->hiddenInput()->label(false) ?>
             <?= $form->field($uploadForm, 'uploadedFile')->fileInput()->label(false) ?>
+
             <?= Html::submitButton(' Загрузить', ['class' => 'btn btn-success']) ?>
+
             <?php ActiveForm::end() ?>
         </div>
     </div>

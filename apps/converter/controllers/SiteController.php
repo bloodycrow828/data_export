@@ -6,10 +6,30 @@ namespace data_export\converter\controllers;
 
 
 use data_export\converter\components\exchange\forms\UploadForm;
+use data_export\converter\components\exchange\service\ImportFile;
+use Exception;
+use Yii;
+use yii\base\Module;
 use yii\web\Controller;
+use yii\web\ErrorHandler;
+use yii\web\UploadedFile;
 
 class SiteController extends Controller
 {
+    private ErrorHandler $errorHandler;
+    private ImportFile $importFile;
+
+    public function __construct(
+        $id, Module $module,
+        ErrorHandler $errorHandler,
+        ImportFile $importFile,
+        $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->errorHandler = $errorHandler;
+        $this->importFile = $importFile;
+    }
+
     public function actions(): array
     {
         return [
@@ -23,7 +43,7 @@ class SiteController extends Controller
     {
         $uploadForm = new UploadForm();
 
-        return $this->render('index',[
+        return $this->render('index', [
             'uploadForm' => $uploadForm,
         ]);
     }
@@ -33,15 +53,14 @@ class SiteController extends Controller
         $uploadForm = new UploadForm();
 
         $messages = [];
-        $downloadHasTakenPlace = false;
         try {
             if ($uploadForm->load(Yii::$app->request->post()) &&
-                $uploadForm->uploadedFile = UploadedFile::getInstance($uploadForm, 'uploadedFile')) {
-                $messages = $this->service->importFromXLS($this->getOrganizationId(), $uploadForm);
-                Yii::$app->session->setFlash('success', 'Файл загружен');
-                $downloadHasTakenPlace = true;
+                $uploadForm->uploadedFile = UploadedFile::getInstance($uploadForm, 'uploadedFile')
+            ) {
+                $messages = $this->importFile->import($uploadForm);
+                Yii::$app->session->setFlash('success', 'Файл загружен, конвертация выполнена.');
             }
-        } catch (DomainException $e) {
+        } catch (Exception $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
@@ -49,7 +68,6 @@ class SiteController extends Controller
         return $this->render('import', [
             'model' => $uploadForm,
             'messages' => $messages,
-            'downloadHasTakenPlace' => $downloadHasTakenPlace,
         ]);
     }
 }

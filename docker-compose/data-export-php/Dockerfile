@@ -7,15 +7,20 @@ COPY ./conf.d /usr/local/etc/php/conf.d
 COPY ./conf.d-dev /usr/local/etc/php/conf.d-dev
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libcurl4-gnutls-dev \
-    libmcrypt4 \
     libmcrypt-dev \
+    libgd-dev \
+    libonig-dev \
+    libpq-dev \
     zlib1g-dev \
-    libzip-dev \
-    git-core \
-    net-tools
+    libzip-dev
 
-RUN docker-php-ext-install pcntl zip
+RUN docker-php-ext-install mbstring pcntl zip
+
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+    && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd
 
 ARG APP_ENV
 RUN if [ "$APP_ENV" = "DEV" ] ; \
@@ -30,7 +35,6 @@ RUN if [ "$APP_ENV" = "DEV" ] ; \
         # для аккуратности подчистим на продакшн среде dev конфиги
         rm -r /usr/local/etc/php/conf.d-dev/ ; \
     fi
-
 
 RUN rm -rf /var/lib/apt/lists/*
 
