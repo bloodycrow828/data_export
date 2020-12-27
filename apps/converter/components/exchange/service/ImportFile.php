@@ -6,7 +6,7 @@ namespace data_export\converter\components\exchange\service;
 
 
 use data_export\converter\components\exchange\domain\loaders\OrderLoader;
-use data_export\converter\components\exchange\forms\UploadForm;
+use data_export\converter\components\exchange\forms\upload\UploadForm;
 use yii\base\InvalidConfigException;
 
 class ImportFile

@@ -75,4 +75,36 @@ abstract class FileExchange
     {
         return $this->fileModel;
     }
+
+    /**
+     * Очистка данных
+     * @param string[] | string $data Данные
+     * @return string[] | string
+     */
+    protected function trim($data)
+    {
+        if (is_array($data)) {
+            return array_map(static function ($item) {
+                if ($item === null) {
+                    return null;
+                }
+                return is_string($item) ? trim($item) : $item;
+            }, $data);
+        }
+
+        if (is_string($data)) {
+            return trim($data);
+        }
+        return [];
+    }
+
+    /**
+     * Удачное выполнение, с ошибками валидации
+     * @param array $errors
+     * @return FileParseResult
+     */
+    protected function success(array $errors): FileParseResult
+    {
+        return new FileParseResult(true, $errors);
+    }
 }

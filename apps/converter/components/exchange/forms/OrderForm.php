@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 
+
 namespace data_export\converter\components\exchange\forms;
 
+use data_export\converter\components\exchange\service\generator\XlsGeneratorDataInterface;
 use yii\base\Model;
 
-class OrderForm extends Model
+class OrderForm extends Model implements XlsGeneratorDataInterface
 {
     public ?int $id = null;
     public ?string $barcode = null;
@@ -23,7 +25,6 @@ class OrderForm extends Model
         return [
             [['id', 'barcode', 'name', 'quantity', 'price'], 'required'],
             [['id', 'barcode', 'name', 'quantity', 'price'], 'trim'],
-            [['barcode'], 'string', 'max' => 255],
             [['name'], 'string', 'max' => 450],
             [['quantity', 'price'], 'integer'],
             ['barcode', 'validateEAN13']
@@ -60,7 +61,7 @@ class OrderForm extends Model
         }
 
         // убеждаемся, что контрольная сумма совпадает
-        if ($rest === $eanAsArray[12]) {
+        if ($rest !== $eanAsArray[12]) {
             $this->addError($attribute, 'Штрихкод неверный.');
         }
     }

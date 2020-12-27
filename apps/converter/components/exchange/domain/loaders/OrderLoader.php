@@ -5,14 +5,10 @@ namespace data_export\converter\components\exchange\domain\loaders;
 
 
 use data_export\converter\components\exchange\forms\OrderForm;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class OrderLoader extends Loader
 {
-
-    public function __construct()
-    {
-    }
-
     public function filedName(): array
     {
         return [
@@ -30,7 +26,16 @@ class OrderLoader extends Loader
 
         if ($this->validate($form, $data, $rowNumber)) {
 
+            $spreadsheet = $this->getGenerator()->generate($form);
+
+            // Создаем файл на основании электронной таблицы
+            $writer = new Xlsx($spreadsheet);
+            $fileName = "file.xlsx";
+            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+            $writer->save($temp_file);
 
         }
     }
+
+
 }

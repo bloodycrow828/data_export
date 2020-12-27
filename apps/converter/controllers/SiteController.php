@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace data_export\converter\controllers;
 
 
-use data_export\converter\components\exchange\forms\UploadForm;
+use data_export\converter\components\exchange\forms\upload\UploadForm;
 use data_export\converter\components\exchange\service\ImportFile;
 use Exception;
 use Yii;
@@ -50,15 +50,18 @@ class SiteController extends Controller
 
     public function actionImport(): string
     {
+        $post = Yii::$app->request->post();
         $uploadForm = new UploadForm();
 
         $messages = [];
         try {
-            if ($uploadForm->load(Yii::$app->request->post()) &&
-                $uploadForm->uploadedFile = UploadedFile::getInstance($uploadForm, 'uploadedFile')
-            ) {
-                $messages = $this->importFile->import($uploadForm);
-                Yii::$app->session->setFlash('success', 'Файл загружен, конвертация выполнена.');
+            if ($uploadForm->uploadedFile = UploadedFile::getInstance($uploadForm, 'uploadedFile')) {
+                $post['UploadForm'] = $uploadForm->uploadedFile;
+
+                if ($uploadForm->load($post)) {
+                    $messages = $this->importFile->import($uploadForm);
+                    Yii::$app->session->setFlash('success', 'Файл загружен, конвертация выполнена.');
+                }
             }
         } catch (Exception $e) {
             Yii::$app->errorHandler->logException($e);

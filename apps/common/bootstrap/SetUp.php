@@ -21,9 +21,5 @@ class SetUp implements BootstrapInterface
         $container->setSingleton(Cache::class, function () use ($app) {
             return $app->cache;
         });
-
-        $container->setSingleton(FtpCredentials::class, function () {
-            return new FtpCredentials(getenv('FTP_HOST'), getenv('FTP_DIR'));
-        });
     }
 }

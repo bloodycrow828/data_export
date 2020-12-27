@@ -12,12 +12,12 @@ services:
     depends_on:
       - data-export-php
     networks:
-      briskly:
-      web:
+      - briskly
+      - web
     labels:
       traefik.enable: "true"
-      traefik.http.routers.frontend.rule: "Host: ${MAIN_DOMAIN}"
-      traefik.http.routers.frontend.entrypoints: "web"
+      traefik.https.routers.frontend.rule: "Host: ${MAIN_DOMAIN}"
+      traefik.https.routers.frontend.entrypoints: "web"
 
   data-export-php:
     image: data-export-phpfpm:latest
@@ -59,6 +59,6 @@ networks:
   briskly:
     ipam:
       config:
-        - subnet: 172.17.0.0/16
+        - subnet: 172.132.0.0/16
   web:
     external: true
