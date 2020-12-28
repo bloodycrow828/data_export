@@ -1,11 +1,10 @@
 <?php
 declare(strict_types=1);
 
-
 namespace data_export\converter\components\exchange\domain\loaders;
 
 
-use data_export\converter\components\exchange\service\generator\SheetGeneratorInterface;
+use data_export\converter\components\exchange\service\generator\XlsGeneratorDataInterface;
 use Exception;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -13,7 +12,6 @@ use yii\helpers\ArrayHelper;
 abstract class Loader
 {
     protected array $errors;
-    protected ?SheetGeneratorInterface $generator = null;
 
     public function getErrors(): array
     {
@@ -26,12 +24,12 @@ abstract class Loader
     }
 
     /**
-     * Метод необходимый для правильной загрузки данных в сущность
+     * Метод необходимый для валидации загрузки/подготовки данных
      * @param array $data
      * @param int $rowNumber
-     * @return void
+     * @return XlsGeneratorDataInterface
      */
-    abstract public function insert(array $data, int $rowNumber): void;
+    abstract public function insert(array $data, int $rowNumber): ?XlsGeneratorDataInterface;
 
     /**
      * Соотношение имени полей
@@ -59,15 +57,5 @@ abstract class Loader
 
         $this->setErrors($rowNumber, $form->getErrors());
         return false;
-    }
-
-    public function setGenerator(?SheetGeneratorInterface $generator): void
-    {
-        $this->generator = $generator;
-    }
-
-    public function getGenerator(): ?SheetGeneratorInterface
-    {
-        return $this->generator;
     }
 }

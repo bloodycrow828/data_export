@@ -5,7 +5,7 @@ namespace data_export\converter\components\exchange\domain\loaders;
 
 
 use data_export\converter\components\exchange\forms\OrderForm;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use data_export\converter\components\exchange\service\generator\XlsGeneratorDataInterface;
 
 class OrderLoader extends Loader
 {
@@ -20,22 +20,14 @@ class OrderLoader extends Loader
         ];
     }
 
-    public function insert(array $data, int $rowNumber): void
+    public function insert(array $data, int $rowNumber): ?XlsGeneratorDataInterface
     {
         $form = new OrderForm();
 
         if ($this->validate($form, $data, $rowNumber)) {
-
-            $spreadsheet = $this->getGenerator()->generate($form);
-
-            // Создаем файл на основании электронной таблицы
-            $writer = new Xlsx($spreadsheet);
-            $fileName = "file.xlsx";
-            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
-            $writer->save($temp_file);
-
+            return $form;
         }
+
+        return null;
     }
-
-
 }

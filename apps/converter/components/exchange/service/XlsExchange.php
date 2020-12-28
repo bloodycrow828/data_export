@@ -5,6 +5,7 @@ namespace data_export\converter\components\exchange\service;
 
 
 use data_export\converter\components\exchange\domain\FileParseResult;
+use data_export\converter\components\exchange\domain\Result;
 use data_export\converter\components\exchange\service\generator\XlsGeneratorByOrderFactory;
 
 class XlsExchange extends FileExchange
@@ -16,18 +17,12 @@ class XlsExchange extends FileExchange
         $this->xlsGenerator = new XlsGeneratorByOrderFactory();
     }
 
-    /** Чтение данных из Json */
-    public function read(): array
-    {
-        $jsonFile = file_get_contents($this->getFileModel()->getFullName());
-        return json_decode($jsonFile, true);
-    }
-
     public function export(): FileParseResult
     {
+        $spreadsheet = null;
         $content = $this->read();
+
         if (count($content['items']) > 0) {
-            $this->loader->setGenerator($this->xlsGenerator->createXlsGenerator());
 
             $data = [];
             foreach ($content['items'] as $keyItem => $item) {
@@ -45,16 +40,28 @@ class XlsExchange extends FileExchange
             }
             unset($content);
 
+            // сортируем данные по цене
             usort($data, function ($one, $two) {
                 return $two['price'] <=> $one['price'];
             });
 
+            // валидируем и подготавливаем данные
+            $validData = [];
             foreach ($data as $item) {
-                $this->loader->insert($item, (int)$item['id']);
+                $validData[] = $this->loader->insert($item, (int)$item['id']);
             }
+            unset($data);
 
-        }
+            $spreadsheet = $this->xlsGenerator->createXlsGenerator()->generate($validData);
+        };
 
-        return $this->success($this->loader->getErrors());
+        return $this->success(new Result($spreadsheet, $this->loader->getErrors()));
+    }
+
+    /** Чтение данных из Json */
+    private function read(): array
+    {
+        $jsonFile = file_get_contents($this->getFileModel()->getFullName());
+        return json_decode($jsonFile, true);
     }
 }

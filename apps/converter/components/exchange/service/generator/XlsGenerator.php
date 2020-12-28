@@ -1,12 +1,11 @@
 <?php
 declare(strict_types=1);
 
-
 namespace data_export\converter\components\exchange\service\generator;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-class XlsGenerator implements SheetGeneratorInterface
+class XlsGenerator
 {
     private Spreadsheet $spreadsheet;
 
@@ -31,7 +30,7 @@ class XlsGenerator implements SheetGeneratorInterface
         $this->firstRowTitles = $firstRowTitles;
     }
 
-    public function generate(XlsGeneratorDataInterface $data): Spreadsheet
+    public function generate(array $data): Spreadsheet
     {
         $spreadsheet = $this->spreadsheet;
 

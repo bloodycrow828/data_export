@@ -1,13 +1,16 @@
 $(document).ready(function () {
 
     $('.save-type').on('click', function () {
+        let thisVal = $(this).val();
         let $ftpCredentials = $('.ftp-credentials')
 
-        if ($(this).val() === 'ftp') {
+        if (thisVal === 'ftp') {
             $ftpCredentials.removeClass('invisible')
         } else {
             $ftpCredentials.addClass('invisible')
         }
+
+        $('#uploadform-type').val(thisVal)
 
         let $stepTwo = $('.step-two');
         $stepTwo.removeClass('invisible')

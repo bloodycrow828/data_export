@@ -13,11 +13,20 @@ use yii\web\UploadedFile;
  * Модель ввода данных при загрузке файла
  *
  * @property FtpCredentialForm $ftpCredential;
+ * @property LocalCredentialForm $localCredential;
  */
 class UploadForm extends CompositeForm
 {
+    public const TYPE_FTP = 'ftp';
+    public const TYPE_LOCAL = 'local';
+    public const TYPES = [
+        self::TYPE_FTP,
+        self::TYPE_LOCAL
+    ];
+
     private File $file;
     public ?UploadedFile $uploadedFile = null;
+    public ?string $type = null;
 
     public function __construct($config = [])
     {
@@ -29,6 +38,11 @@ class UploadForm extends CompositeForm
     public function rules(): array
     {
         return [
+            [
+                'type', 'in',
+                'range' => self::TYPES,
+                'message' => 'Тип загрузки не соответствует доступным.'
+            ],
             [['uploadedFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'json'],
         ];
     }
@@ -47,6 +61,11 @@ class UploadForm extends CompositeForm
         return $this->ftpCredential;
     }
 
+    public function getLocalCredential(): LocalCredentialForm
+    {
+        return $this->localCredential;
+    }
+
     public function getFile(): File
     {
         return $this->file;
@@ -55,6 +74,11 @@ class UploadForm extends CompositeForm
     public function attributeLabels(): array
     {
         return [];
+    }
+
+    public function isFtpUpload(): bool
+    {
+        return $this->type === self::TYPE_FTP;
     }
 
     protected function internalForms(): array

@@ -8,6 +8,8 @@ namespace data_export\converter\components\exchange\service;
 use data_export\converter\components\exchange\domain\File;
 use data_export\converter\components\exchange\domain\FileParseResult;
 use data_export\converter\components\exchange\domain\loaders\Loader;
+use data_export\converter\components\exchange\domain\ParseResultCollection;
+use data_export\converter\components\exchange\domain\Result;
 use Yii;
 use yii\base\InvalidConfigException;
 
@@ -100,11 +102,11 @@ abstract class FileExchange
 
     /**
      * Удачное выполнение, с ошибками валидации
-     * @param array $errors
+     * @param Result $result
      * @return FileParseResult
      */
-    protected function success(array $errors): FileParseResult
+    protected function success(Result $result): FileParseResult
     {
-        return new FileParseResult(true, $errors);
+        return new FileParseResult(true, $result);
     }
 }

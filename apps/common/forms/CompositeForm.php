@@ -8,10 +8,8 @@ use yii\helpers\ArrayHelper;
 
 abstract class CompositeForm extends Model
 {
-    /**
-     * @var Model[]|array[]
-     */
-    private $forms = [];
+    /** @var Model[] */
+    private array $forms = [];
 
     abstract protected function internalForms(): array;
 

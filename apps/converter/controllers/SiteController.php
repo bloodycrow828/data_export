@@ -56,7 +56,7 @@ class SiteController extends Controller
         $messages = [];
         try {
             if ($uploadForm->uploadedFile = UploadedFile::getInstance($uploadForm, 'uploadedFile')) {
-                $post['UploadForm'] = $uploadForm->uploadedFile;
+                $post['UploadForm']['uploadedFile'] = $uploadForm->uploadedFile;
 
                 if ($uploadForm->load($post)) {
                     $messages = $this->importFile->import($uploadForm);

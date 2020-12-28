@@ -130,9 +130,14 @@ $this->title = 'Загрузка данных из файла json';
                 ]
             ]) ?>
             <?= $form->field($uploadForm->getFtpCredential(), 'host')->hiddenInput()->label(false) ?>
+
             <?= $form->field($uploadForm->getFtpCredential(), 'path')->hiddenInput()->label(false) ?>
+
             <?= $form->field($uploadForm->getFtpCredential(), 'login')->hiddenInput()->label(false) ?>
+
             <?= $form->field($uploadForm->getFtpCredential(), 'password')->hiddenInput()->label(false) ?>
+
+            <?= $form->field($uploadForm, 'type')->hiddenInput()->label(false) ?>
 
             <?= $form->field($uploadForm, 'uploadedFile')->fileInput()->label(false) ?>
 
