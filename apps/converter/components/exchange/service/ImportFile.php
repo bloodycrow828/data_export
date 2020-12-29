@@ -45,8 +45,7 @@ class ImportFile
                         $ftpCredential->getPath()
                     );
                 } else {
-                    $localCredential = $uploadForm->getLocalCredential();
-                    $uploader->local($localCredential->getPath());
+                    $uploader->local();
                 }
                 $uploader->upload(file_get_contents($xlsxFile));
 

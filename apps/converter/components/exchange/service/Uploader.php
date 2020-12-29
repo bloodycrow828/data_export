@@ -12,19 +12,18 @@ use League\Flysystem\Ftp\FtpAdapter;
 use League\Flysystem\Ftp\FtpConnectionOptions;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
+use Yii;
 
 class Uploader
 {
     private FilesystemAdapter $adapter;
-    private ?string $path = null;
 
     public function ftp(string $host, string $login, string $password, string $path = null): void
     {
-        $this->path = $path;
         $this->adapter = new FtpAdapter(
             new FtpConnectionOptions(
                 $host,
-                !empty($this->path) ? $this->path : '/',
+                !empty($path) ? $path : '/',
                 $login,
                 $password,
                 $port = 21,
@@ -36,20 +35,19 @@ class Uploader
         );
     }
 
-    public function local(string $path): void
+    public function local(): void
     {
-        $this->path = $path;
-        //                         __DIR__ . '/root/directory/'
         $this->adapter = new LocalFilesystemAdapter(
-            $path,
+//            Yii::getAlias('@web/public/'),
+            CONVERTER_APP_DIR.'/web/public',
             PortableVisibilityConverter::fromArray([
                 'file' => [
                     'public' => 0640,
                     'private' => 0644,
                 ],
                 'dir' => [
-                    'public' => 0750,
-                    'private' => 7755,
+                    'public' => 0755,
+                    'private' => 0755,
                 ],
             ]),
             LOCK_EX,

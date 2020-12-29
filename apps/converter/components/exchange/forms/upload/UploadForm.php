@@ -13,7 +13,6 @@ use yii\web\UploadedFile;
  * Модель ввода данных при загрузке файла
  *
  * @property FtpCredentialForm $ftpCredential;
- * @property LocalCredentialForm $localCredential;
  */
 class UploadForm extends CompositeForm
 {
@@ -61,11 +60,6 @@ class UploadForm extends CompositeForm
         return $this->ftpCredential;
     }
 
-    public function getLocalCredential(): LocalCredentialForm
-    {
-        return $this->localCredential;
-    }
-
     public function getFile(): File
     {
         return $this->file;
@@ -83,6 +77,6 @@ class UploadForm extends CompositeForm
 
     protected function internalForms(): array
     {
-        return ['ftpCredential'];
+        return ['ftpCredential', 'localCredential'];
     }
 }
