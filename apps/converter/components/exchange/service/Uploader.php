@@ -24,9 +24,14 @@ class Uploader
         $this->adapter = new FtpAdapter(
             new FtpConnectionOptions(
                 $host,
-                $path ?? '/public',
+                !empty($this->path) ? $this->path : '/',
                 $login,
-                $password
+                $password,
+                $port = 21,
+                $ssl = false,
+                $timeout = 90,
+                $utf8 = true,
+                $passive = false
             )
         );
     }
@@ -51,11 +56,15 @@ class Uploader
         );
     }
 
+    /**
+     * @param string $content
+     * @throws FilesystemException
+     */
     public function upload(string $content)
     {
         try {
             $filesystem = new Filesystem($this->adapter);
-            $filesystem->write($this->path, $content);
+            $filesystem->write('items.xlsx', $content);
         } catch (FilesystemException $exception) {
             throw $exception;
         }

@@ -1,0 +1,8 @@
+.notify {
+    position: fixed !important;
+    z-index: 10000 !important;
+    width: 100% !important;
+    height: auto !important;
+    top: 30px !important;
+    right: 10px !important;
+}

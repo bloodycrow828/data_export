@@ -9,7 +9,7 @@ use data_export\converter\components\exchange\service\generator\XlsGeneratorData
 
 class OrderLoader extends Loader
 {
-    public function filedName(): array
+    public static function filedName(): array
     {
         return [
             'id' => 'Id',

@@ -40,25 +40,25 @@ class XlsGenerator
         // Устанавливаем заголовки столбцов
         if ($this->firstRowTitles) {
             $amount = count($this->firstRowTitles);
-            for ($i = 1; $i < $amount; $i++) {
-                $sheet->setCellValueByColumnAndRow($i, 1, array_values($this->firstRowTitles));
+            for ($i = 1; $i <= $amount; $i++) {
+                $index = $i;
+                $sheet->setCellValueByColumnAndRow($i, 1, array_values($this->firstRowTitles)[--$index]);
+                $sheet->getStyleByColumnAndRow($i, 1)->getFont()->setBold(true);
             }
         }
 
-
-       /* foreach ($orders as $key => $order) {
-            $sheet->setCellValue('B' . $rowNumber, $key + 1);
-            $sheet->mergeCells('C' . $rowNumber . ':G' . $rowNumber);
-            $sheet->setCellValue(
-                'C' . $rowNumber,
-                $order->orderId . ' ' .
-                $order->orderProductName .
-                ' (комплект ' . $order->orderCirculationAmount . ' шт)'
-            );
-            $sheet->setCellValue('H' . $rowNumber, '');
-            $sheet->setCellValue('I' . $rowNumber, 'компл');
-            $sheet->setCellValue('M' . $rowNumber, '839');
-        }*/
+        // Заполняем таблицу валидными данными
+        $data = array_values(array_filter($data));
+        $amount = count($data);
+        $j = 1;
+        $this->firstRowTitles ? $rowIndex = 2 : $rowIndex = 1;
+        for ($i = 0; $i <= $amount; $i++) {
+            foreach ($data[$i] as $item) {
+                $sheet->setCellValueByColumnAndRow($j++, $i + $rowIndex, $item);
+            }
+            $j = 1;
+        }
+        unset($data);
 
         return $spreadsheet;
     }

@@ -8,6 +8,7 @@ namespace data_export\converter\components\exchange\service;
 use data_export\converter\components\exchange\domain\loaders\OrderLoader;
 use data_export\converter\components\exchange\domain\Result;
 use data_export\converter\components\exchange\forms\upload\UploadForm;
+use League\Flysystem\FilesystemException;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use yii\base\InvalidConfigException;
@@ -19,6 +20,7 @@ class ImportFile
      * @return array
      * @throws Exception
      * @throws InvalidConfigException
+     * @throws FilesystemException
      */
     public function import(UploadForm $uploadForm): array
     {
@@ -38,17 +40,15 @@ class ImportFile
                     $ftpCredential = $uploadForm->getFtpCredential();
                     $uploader->ftp(
                         $ftpCredential->getHost(),
-                        $ftpCredential->getPath(),
                         $ftpCredential->getLogin(),
-                        $ftpCredential->getPassword()
+                        $ftpCredential->getPassword(),
+                        $ftpCredential->getPath()
                     );
                 } else {
                     $localCredential = $uploadForm->getLocalCredential();
                     $uploader->local($localCredential->getPath());
                 }
-
                 $uploader->upload(file_get_contents($xlsxFile));
-
 
                 return $result->getResult()->getMessages();
             }

@@ -48,7 +48,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionImport(): string
+    public function actionImport()
     {
         $post = Yii::$app->request->post();
         $uploadForm = new UploadForm();
@@ -66,6 +66,8 @@ class SiteController extends Controller
         } catch (Exception $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
+
+            return $this->redirect('index');
         }
 
         return $this->render('import', [

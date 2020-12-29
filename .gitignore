@@ -1,5 +1,6 @@
 apps/converter/web/assets/*
 apps/converter/runtime
+storage
 .htaccess
 .env
 .DS_Store

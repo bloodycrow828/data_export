@@ -5,6 +5,7 @@ namespace data_export\converter\components\exchange\service;
 
 
 use data_export\converter\components\exchange\domain\FileParseResult;
+use data_export\converter\components\exchange\domain\loaders\OrderLoader;
 use data_export\converter\components\exchange\domain\Result;
 use data_export\converter\components\exchange\service\generator\XlsGeneratorByOrderFactory;
 
@@ -52,7 +53,10 @@ class XlsExchange extends FileExchange
             }
             unset($data);
 
-            $spreadsheet = $this->xlsGenerator->createXlsGenerator()->generate($validData);
+            $generator = $this->xlsGenerator->createXlsGenerator();
+            $generator->setFirstRowTitles(OrderLoader::filedName());
+
+            $spreadsheet = $generator->generate($validData);
         };
 
         return $this->success(new Result($spreadsheet, $this->loader->getErrors()));

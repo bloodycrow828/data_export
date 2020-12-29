@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
+use data_export\common\widgets\Alert;
 use data_export\converter\assets\AppAsset;
+use yii\bootstrap4\Breadcrumbs;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -25,7 +27,15 @@ AppAsset::register($this);
 <body class="bg-light">
 <?php $this->beginBody() ?>
 
-<?= $content ?>
+<?= Alert::widget([
+    'options' => [
+        'class' => 'col-md-4 notify'
+    ]
+]) ?>
+
+<?= $this->render('content.php',
+    ['content' => $content]
+) ?>
 
 <?php $this->endBody() ?>
 </body>

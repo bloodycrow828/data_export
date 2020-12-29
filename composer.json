@@ -15,7 +15,8 @@
     "vlucas/phpdotenv": "5.2",
     "yiisoft/yii2-bootstrap4": "~2.0.6",
     "phpoffice/phpspreadsheet": "^1.15.0",
-    "league/flysystem": "^2.0.0"
+    "league/flysystem": "^2.0.0",
+    "league/flysystem-ftp": "^2.0.2"
   },
   "autoload": {
     "psr-4": {

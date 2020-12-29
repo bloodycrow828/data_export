@@ -36,9 +36,13 @@ services:
     environment:
       FTP_USER_NAME: ${FTP_USER_NAME}
       FTP_USER_PASS: ${FTP_USER_PASS}
-      FTP_USER_HOME: /app
+      FTP_USER_HOME: /home/name/pure-ftpd
+    ports:
+    - "21:21"
+    - "20:20"
+    - "30000-30009:30000-30009"
     volumes:
-      - ./storage/public:/app
+      - ./storage/public:/home/name/pure-ftpd
     networks:
       - briskly
 

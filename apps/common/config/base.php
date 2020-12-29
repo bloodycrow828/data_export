@@ -10,6 +10,7 @@ return [
     'timeZone' => 'Europe/Moscow',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'bootstrap' => [
         'log',

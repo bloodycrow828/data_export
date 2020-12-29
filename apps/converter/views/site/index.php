@@ -12,14 +12,15 @@ use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 
 $this->title = 'Загрузка данных из файла json';
+$this->params['breadcrumbs'] = $this->title;
 ?>
 
 <div class="container">
     <div class="py-5 text-center">
         <h1>Конвертер файла json в excel(xlsx)</h1>
         <p class="lead">
-            В процессе конвертации происходит проверка на соотвествие штрих-кодов стандарту EAN-13 и корректировки
-            данных, utf-последловательности приводятся в читаемый вид.
+            В процессе конвертации происходит проверка на соответствие штрих-кодов стандарту EAN-13 и корректировки
+            данных, utf-последовательности приводятся в читаемый вид.
         </p>
     </div>
     <div class="row">
@@ -49,7 +50,7 @@ $this->title = 'Загрузка данных из файла json';
                 <h4 class="d-flex justify-content-between align-items-center mb-3">Учетные данные FTP</h4>
                 <ul class="text-muted">
                     Тестовые данные:
-                    <li>Хост: 127.0.0.1</li>
+                    <li>Хост: data-export-ftp</li>
                     <li>Логин: name</li>
                     <li>Пароль: pass</li>
                 </ul>
